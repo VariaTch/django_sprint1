@@ -44,8 +44,10 @@ posts = [
     },
 ]
 
+
 def index(request):
     return render(request, 'blog/index.html', {'posts': posts[::-1]})
+
 
 def post_detail(request, id):
     post = next((post for post in posts if post['id'] == id), None)
@@ -53,13 +55,15 @@ def post_detail(request, id):
         return HttpResponse('Пост не найден', status=404)
     return render(request, 'blog/detail.html', {'post': post})
 
+
 def category_posts(request, category_slug):
     category_name = {
         'travel': 'Путешествия',
         'not-my-day': 'Не мой день',
     }.get(category_slug, 'Без категории')
 
-    filtered_posts = [post for post in posts if post['category'] == category_slug]
+    filtered_posts = [
+        post for post in posts if post['category'] == category_slug]
     return render(request, 'blog/category.html', {
         'category': {
             'slug': category_slug,
